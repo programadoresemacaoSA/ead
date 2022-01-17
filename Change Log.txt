@@ -1,0 +1,139 @@
+Arquivos Alterados
+
+1. Tabela ws_posts
+Adicionado a coluna
+post_private, tipo: INT, tamanho: 11, padrão: 0
+
+-----x-----x-----
+
+2. admin\_sis\posts\create.php
+Linha 239
+Adicionado: 
+<label class="label_check <?= ($post_private == 1 ? 'active' : ''); ?>">
+    <input style="margin-top: -1px;" type="checkbox" value="1" name="post_private" <?= ($post_private == 1 ? 'checked' : ''); ?>> Post Privado
+</label>
+
+-----x-----x-----
+
+3. admin\_ajax\Posts.ajax.php
+Linha 106
+Adicionado: 
+$PostData['post_private'] = (!empty($PostData['post_private']) ? '1' : '0');
+
+-----x-----x-----
+
+4. admin\_tpl\Share.wc.php
+Linha 1
+Alterado: 
+<ul class="workcontrol_sharebar"> para <ul style="margin: 0" class="workcontrol_sharebar">
+
+-----x-----x-----
+
+5. admin\_sis\posts\home.php
+Linha 133
+Adicionado:
+$PostPrivate = ($post_private == 1 ? '<span class="btn btn_red icon-lock icon-notext wc_tooltip"><span class="wc_tooltip_baloon">Post Privado</span></span>' : '');
+
+Linha 165
+Alterado:
+{$PostStatus}
+
+Para:
+{$PostStatus} {$PostPrivate}
+
+-----x-----x-----
+
+6. themes\masteread\index.php
+Linha 230
+Alterar: 
+$Read->ExeRead(DB_POSTS, "WHERE post_status = 1 AND post_date <= NOW() ORDER BY post_date DESC LIMIT 4");
+
+Para:
+$Read->ExeRead(DB_POSTS, "WHERE post_status = 1 AND post_private = 0 AND post_date <= NOW() ORDER BY post_date DESC LIMIT 4");
+
+-----x-----x-----
+
+7. themes\masteread\blog.php
+Linha 23
+Alterar: 
+$Read->ExeRead(DB_POSTS, "WHERE post_status = 1 AND post_date <= NOW() ORDER BY post_date DESC LIMIT :limit OFFSET :offset", "limit={$Pager->getLimit()}&offset={$Pager->getOffset()}");
+
+Para:
+$Read->ExeRead(DB_POSTS, "WHERE post_status = 1 AND post_private = 0 AND post_date <= NOW() ORDER BY post_date DESC LIMIT :limit OFFSET :offset", "limit={$Pager->getLimit()}&offset={$Pager->getOffset()}");
+
+-----x-----x-----
+
+8. themes\masteread\inc\sidebar.php
+Linha 49
+Alterar: 
+$Read->ExeRead(DB_POSTS, "WHERE post_status = 1 AND post_date <= NOW() ORDER BY post_views DESC, post_date DESC LIMIT 5");
+
+Para:
+$Read->ExeRead(DB_POSTS, "WHERE post_status = 1 AND post_private = 0 AND post_date <= NOW() ORDER BY post_views DESC, post_date DESC LIMIT 5");
+
+-----x-----x-----
+
+9. _app\Models\Seo.class.php
+Linha 125
+Adicionar:
+elseif ($this->File == 'artigo-privado'):
+            //ARTIGO  PRIVADO
+            $Read->FullRead("SELECT post_title, post_subtitle, post_cover FROM " . DB_POSTS . " WHERE post_name = :nm AND post_date <= NOW()", "nm={$this->Link}");
+            if ($Read->getResult()):
+                $Post = $Read->getResult()[0];
+                $this->Schema = 'WebSite';
+                $this->Title = $Post['post_title'] . " - " . SITE_NAME;
+                $this->Description = $Post['post_subtitle'];
+                $this->Image = BASE . "/uploads/{$Post['post_cover']}";
+            else:
+                $this->set404();
+            endif;
+        elseif ($this->File == 'artigos-privados'):
+            //ARTIGOS PRIVADOS
+            $Read->FullRead("SELECT category_title, category_content FROM " . DB_CATEGORIES . " WHERE category_name = :nm", "nm={$this->Link}");
+            if ($Read->getResult()):
+                $Category = $Read->getResult()[0];
+                $this->Schema = 'WebSite';
+                $this->Title = $Category['category_title'] . " - " . SITE_NAME;
+                $this->Description = $Category['category_content'];
+                $this->Image = INCLUDE_PATH . '/images/default.jpg';
+            else:
+                $this->set404();
+            endif;
+Linha 407
+Adicionar:
+case 'artigos':
+    $this->Title = "Artigos | " . SITE_NAME;
+    break;
+
+-----x-----x-----
+
+10. Adicionar arquivo "artigos.php" para pasta \campus\_views\cursos\
+11. Adicionar arquivo "posts.php" para pasta \campus\_views\cursos\inc\
+12. Adicionar arquivo "sidebar-privado.php" para pasta \masteread\inc\
+13. Adicionar arquivo "artigo-privado.php" para pasta \masteread\
+14. Adicionar arquivo "artigos-privados.php" para pasta \masteread\
+
+-----x-----x-----
+
+15. 
+Adicionar:
+Linha 114
+<?php
+//MENU ARTIGOS
+$Read->ExeRead(DB_POSTS, "WHERE post_status = 1 AND post_private = 1");
+if ($Read->getResult()):
+    ?><li class="dashboard_nav_menu_li <?= $getViewInput == 'cursos/artigos' ? 'dashboard_nav_menu_active' : ''; ?>">
+    <a class="icon-blog" title="Artigos" href="campus.php?wc=cursos/artigos">Artigos</a>                    
+    </li><?php
+endif;
+
+if (APP_CLASS):
+//MENU APP CENTRAL DE AULAS
+   ?><li class="dashboard_nav_menu_li <?= $getViewInput == 'cursos/lives' || $getViewInput == 'lives/home' ? 'dashboard_nav_menu_active' : ''; ?>">
+   <a class="icon-tv" title="Lives" href="campus.php?wc=cursos/lives">Lives</a>
+   </li><?php
+endif; ?>
+
+-----x-----x-----
+
