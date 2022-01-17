@@ -1,0 +1,90 @@
+/*CERTIFICATION*/
+.wc_ead_certificate{
+    width: 3508px;
+    position: relative;
+    left: 0;
+    top: 0;
+    background: #fff;
+}
+
+.wc_ead_certificate_name{
+    position: absolute;
+    left: 1100px;
+    top: 850px;
+    font-size: 160px;
+    line-height: 0;
+    text-transform: uppercase;
+    font-family: 'Open Sans',serif
+}
+
+.wc_ead_certificate_course{
+    position: absolute;
+    left: 1100px;
+    top: 1420px;
+    font-size: 105px;
+    line-height: 0;
+    text-transform: uppercase;
+    font-family: 'Open Sans',serif
+}
+
+.wc_ead_certificate_document{
+    position: absolute;
+    left: 1100px;
+    top: 1650px;
+    font-size: 80px;
+    line-height: 0;
+    text-transform: uppercase;
+    color: #555;
+    font-family: 'Open Sans',serif
+}
+
+.wc_ead_certificate_workload{
+    position: absolute;
+    left: 1100px;
+    top: 1750px;
+    font-size: 80px;
+    line-height: 0;
+    text-transform: uppercase;
+    color: #555;
+    font-family: 'Open Sans',serif
+}
+
+.wc_ead_certificate_validate{
+    position: absolute;
+    left: 1000px;
+    width: 2508px;
+    bottom: 0;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 0;
+    text-transform: uppercase;
+    color: #555;
+    text-align: center;
+    padding: 70px 0;
+    color: #ccc;
+}
+
+
+.wc_ead_certificate_overload{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background: #000;
+}
+
+.wc_ead_certificate_overload_box{
+    display: block;
+    color: #fff;
+    text-align: center;
+    margin: auto;
+}
+
+.wc_ead_certificate_overload_box p{
+    font-size: 1em;
+    font-weight: 500;
+    margin-top: 15px;
+    text-transform: uppercase;
+}
